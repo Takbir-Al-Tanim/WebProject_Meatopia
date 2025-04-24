@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Overview | Meatopia Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .chart-container {
+      height: 300px; /* Fixed height to prevent expanding */
+    }
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-4">
+  <h2 class="mb-4">Meat Product Analysis Dashboard</h2>
+
+  <!-- Key Stats -->
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card text-white bg-primary p-3">
+        <h6>Total Inventory</h6>
+        <h3>12,500 kg</h3>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-success p-3">
+        <h6>Market Price (Avg)</h6>
+        <h3>$5.20/kg</h3>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-warning p-3">
+        <h6>Supply vs Demand</h6>
+        <h3>80% / 90%</h3>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-danger p-3">
+        <h6>Cold Storage Usage</h6>
+        <h3>65%</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="card p-3 chart-container">
+        <h6>Price Trends</h6>
+        <canvas id="priceChart"></canvas>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card p-3 chart-container">
+        <h6>Supply & Demand</h6>
+        <canvas id="supplyChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Buyer & Seller Directory -->
+  <div class="row mt-4 mb-5">
+    <div class="col-md-6">
+      <div class="card p-3">
+        <h6>Top Buyers</h6>
+        <ul>
+          <li>🔹 Smith's Meat Supply</li>
+          <li>🔹 Green Farms Market</li>
+          <li>🔹 Metro Superstore</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card p-3">
+        <h6>Top Sellers</h6>
+        <ul>
+          <li>🔹 Johnson's Livestock</li>
+          <li>🔹 Fresh Cuts Butchery</li>
+          <li>🔹 Organic Meat Co.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  setTimeout(() => {
+    const ctx1 = document.getElementById('priceChart')?.getContext('2d');
+    if (ctx1) {
+      new Chart(ctx1, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+          datasets: [{
+            label: 'Price per kg ($)',
+            data: [4.5, 4.7, 4.9, 5.1, 5.3, 5.2],
+            borderColor: 'blue',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+    }
+
+    const ctx2 = document.getElementById('supplyChart')?.getContext('2d');
+    if (ctx2) {
+      new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+          datasets: [
+            {
+              label: 'Supply',
+              data: [80, 85, 83, 88, 90, 92],
+              backgroundColor: 'green'
+            },
+            {
+              label: 'Demand',
+              data: [85, 87, 86, 89, 91, 95],
+              backgroundColor: 'red'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+    }
+  }, 100);
+</script>
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="overview-charts.js"></script>
+</body>
+</html>

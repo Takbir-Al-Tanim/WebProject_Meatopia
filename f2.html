@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Historical Production Data</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f1f3f5;
+    }
+    .section-title {
+      margin-top: 40px;
+    }
+    .table-container {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Meat Supply Dashboard</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Section: Livestock Data -->
+    <h2 class="section-title">🐄 Livestock Data</h2>
+    <div class="text-end mb-2">
+      <a href="f2_form01.html" class="btn btn-primary">Add Information</a>
+    </div>
+    <div class="table-container table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Livestock ID</th>
+            <th>Year</th>
+            <th>Animal Type</th>
+            <th>Animal Count</th>
+            <th>Region</th>
+            <th>Production Cost / Animal</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>LS001</td>
+            <td>2022</td>
+            <td>Cattle</td>
+            <td>1500</td>
+            <td>Texas</td>
+            <td>$120</td>
+            <td>
+              <a href="#" class="btn btn-sm btn-warning">Edit</a>
+              <a href="#" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+          </tr>
+          <tr>
+            <td>LS002</td>
+            <td>2023</td>
+            <td>Chicken</td>
+            <td>5000</td>
+            <td>Georgia</td>
+            <td>$8</td>
+            <td>
+              <a href="#" class="btn btn-sm btn-warning">Edit</a>
+              <a href="#" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section: Economic Production Metrics -->
+    <h2 class="section-title">📊 Production Economics (GDP & Meat Production)</h2>
+    <div class="text-end mb-2">
+      <a href="f2_form02.html" class="btn btn-primary">Add Information</a>
+    </div>
+    <div class="table-container table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Country</th>
+            <th>Year</th>
+            <th>GDP Value</th>
+            <th>Meat Production Value</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>USA</td>
+            <td>2022</td>
+            <td>$23 Trillion</td>
+            <td>$89 Billion</td>
+            <td>
+              <a href="#" class="btn btn-sm btn-warning">Edit</a>
+              <a href="#" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Brazil</td>
+            <td>2023</td>
+            <td>$1.9 Trillion</td>
+            <td>$42 Billion</td>
+            <td>
+              <a href="#" class="btn btn-sm btn-warning">Edit</a>
+              <a href="#" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section: Processing Data -->
+    <h2 class="section-title">🏭 Slaughterhouse Processing Data</h2>
+    <div class="text-end mb-2">
+      <a href="f2_form03.html" class="btn btn-primary">Add Information</a>
+    </div>
+    <div class="table-container table-responsive mb-5">
+      <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Slaughterhouse Name</th>
+            <th>Address</th>
+            <th>Capacity</th>
+            <th>Slaughter Date</th>
+            <th>Quantity Slaughtered</th>
+            <th>Meat Type</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Prime Cuts Facility</td>
+            <td>Houston, TX</td>
+            <td>2000</td>
+            <td>2023-05-10</td>
+            <td>1800</td>
+            <td>Beef</td>
+            <td>
+              <a href="#" class="btn btn-sm btn-warning">Edit</a>
+              <a href="#" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Feathered Farms</td>
+            <td>Atlanta, GA</td>
+            <td>5000</td>
+            <td>2023-06-20</td>
+            <td>4700</td>
+            <td>Chicken</td>
+            <td>
+              <a href="#" class="btn btn-sm btn-warning">Edit</a>
+              <a href="#" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>
