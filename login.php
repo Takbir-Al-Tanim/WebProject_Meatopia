@@ -82,7 +82,7 @@
       // Check if the entered credentials are correct
       if (userId === "2331694" && password === "1234") {
         // Redirect to d.html if credentials are correct
-        window.location.href = "d2.html";
+        window.location.href = "dashboard.php";
       } else {
         // Show an alert if credentials are incorrect
         alert("Invalid User ID or Password. Please try again.");

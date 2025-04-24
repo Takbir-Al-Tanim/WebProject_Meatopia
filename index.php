@@ -14,7 +14,7 @@
         <nav class="navbar">
             <div class="logo">Meatopia</div>
             <ul class="nav-links">
-                <li><a href="">Log In</a></li>
+                <li><a href="login.php">Log In</a></li>
                 <li><a href="#">About Us</a></li>
                 <li><a href="#">Order Now</a></li>
                 <li><a href="#">Contact</a></li>
