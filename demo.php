@@ -1,252 +1,236 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-  <meta charset="UTF-8" />  
-  <title>Meatopia Dashboard</title>  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />  
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />  
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  
-  <style>  
-    body {  
-      background-color: #f4eee9; /* warm cream */  
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
-      color: #3a2120; /* dark brown text */  
-    }  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer & Seller Directory</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .search-bar {
+            max-width: 400px;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        .table thead th {
+            background-color: #212529;
+            color: white;
+        }
+        .action-btn {
+            padding: 5px 10px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .edit-btn {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        .add-btn {
+            background-color: #198754;
+            color: white;
+        }
+        .modal-content {
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            color: white;
+            display: none;
+            z-index: 1000;
+        }
+        .success {
+            background-color: #198754;
+        }
+        .error {
+            background-color: #dc3545;
+        }
+        .tab-content {
+            background-color: white;
+            border-radius: 0 0 5px 5px;
+            padding: 20px;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        .nav-tabs .nav-link {
+            border: 1px solid #dee2e6;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            background-color: #e9ecef;
+        }
+        .nav-tabs .nav-link.active {
+            background-color: white;
+            border-bottom: 1px solid white;
+            margin-bottom: -1px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Buyer & Seller Directory</a>
+        </div>
+    </nav>
 
-    .sidebar {  
-      width: 250px;  
-      height: 100vh;  
-      background: #5b2221; /* deep burgundy */  
-      color: #f4eee9; /* creamy light */  
-      position: fixed;  
-      padding: 20px;  
-      box-shadow: 3px 0 10px rgba(0, 0, 0, 0.3);  
-    }  
+    <!-- Page Container -->
+    <div class="container py-4">
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-tabs" id="directoryTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="farms-tab" data-bs-toggle="tab" data-bs-target="#farms" type="button" role="tab">Farms</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="vendors-tab" data-bs-toggle="tab" data-bs-target="#vendors" type="button" role="tab">Vendors</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="customers-tab" data-bs-toggle="tab" data-bs-target="#customers" type="button" role="tab">Customers</button>
+            </li>
+        </ul>
 
-    .sidebar h4 {  
-      text-align: center;  
-      margin-bottom: 30px;  
-      font-weight: 700;  
-      font-size: 1.8rem;  
-      letter-spacing: 1.5px;  
-      color: #f6d5c3; /* soft beige */  
-    }  
-
-    .sidebar .admin {  
-      font-size: 1.2rem;  
-      margin-bottom: 20px;  
-      text-align: center;  
-      color: #ddb7a0;  
-    }  
-
-    .sidebar a {  
-      color: #f4eee9;  
-      text-decoration: none;  
-      display: block;  
-      padding: 12px;  
-      margin: 10px 0;  
-      transition: background-color 0.3s ease, color 0.3s ease;  
-      font-size: 1.1rem;  
-      border-radius: 5px;  
-    }  
-
-    .sidebar a:hover,  
-    .sidebar a.active {  
-      background: #a73e35; /* warm tomato red */  
-      color: #fff3e4;  
-      font-weight: 600;  
-      box-shadow: 0 0 10px #a73e35;  
-    }  
-
-    .main-content {  
-      margin-left: 260px;  
-      padding: 20px;  
-      background: #fff8f5; /* almost white warm */  
-      min-height: 100vh;  
-    }  
-
-    .topbar {  
-      display: flex;  
-      justify-content: space-between;  
-      align-items: center;  
-      margin-bottom: 30px;  
-      background: #edd7ca; /* soft beige */  
-      padding: 12px 20px;  
-      border-radius: 10px;  
-      box-shadow: 0 4px 12px rgba(183, 52, 48, 0.2);  
-    }  
-
-    .topbar .search-bar input {  
-      width: 300px;  
-      border: 1.5px solid #a73e35;  
-      border-radius: 20px;  
-      padding: 6px 12px;  
-      font-size: 1rem;  
-      color: #3a2120;  
-      background: #fff3e4;  
-      transition: border-color 0.3s ease;  
-    }  
-
-    .topbar .search-bar input:focus {  
-      outline: none;  
-      border-color: #5b2221;  
-      background: #f6d5c3;  
-    }  
-
-    .btn {  
-      background: none;  
-      border: none;  
-      font-weight: 600;  
-      color: #5b2221;  
-      font-size: 1.1rem;  
-    }  
-
-    .btn:hover {  
-      color: #a73e35;  
-    }  
-
-    .dropdown-menu {  
-      font-size: 1rem;  
-      background: #f7ede7;  
-      border: 1.5px solid #a73e35;  
-      border-radius: 10px;  
-      color: #3a2120;  
-    }  
-
-    .dropdown-menu .dropdown-item {  
-      color: #5b2221;  
-      font-weight: 500;  
-      font-size: 1rem;  
-    }  
-
-    .dropdown-menu .dropdown-item:hover {  
-      background-color: #ffd6ca;  
-      color: #800000;  
-    }  
-
-    #contentFrame {  
-      width: 100%;  
-      height: 800px;  
-      border: none;  
-      border-radius: 12px;  
-      box-shadow: 0 4px 15px rgba(167, 62, 53, 0.3);  
-      background: white;  
-    }  
-  </style>  
-</head>  
-<body>  
-
-  <!-- Sidebar -->  
-  <div class="sidebar">  
-    <h4>Meatopia.com</h4>  
-    <div class="admin">👤 Admin</div>  
-    <a href="#" onclick="changeContent('overview')">📊 Dashboard Overview</a>  
-    <a href="#" onclick="changeContent('productInfo')">📦 Product Info</a>  
-    <a href="#" onclick="changeContent('productionData')">📜 Production Data</a>  
-    <a href="#" onclick="changeContent('consumerDemand')">👥 Consumer Demand</a>  
-    <a href="#" onclick="changeContent('realTimeSupply')">🚚 Supply & Logistics</a>  
-    <a href="#" onclick="changeContent('marketPrices')">📈 Market Trends</a>  
-    <a href="#" onclick="changeContent('recommendations')">🐄 Farm & Livestock</a>  
-    <a href="#" onclick="changeContent('directory')">📞 Buyer & Seller</a>  
-  </div>  
-
-  <!-- Main Content -->  
-  <div class="main-content">  
-    <div class="topbar">  
-      <div class="search-bar">  
-        <input type="text" class="form-control" placeholder="Search..." />  
-      </div>  
-      <div class="d-flex align-items-center gap-3">  
-
-        <!-- Message Dropdown -->  
-        <div class="dropdown">  
-          <button class="btn btn-secondary d-flex align-items-center gap-1" type="button" id="messageDropdown" data-bs-toggle="dropdown" aria-expanded="false">  
-            <i class="bi bi-envelope-fill"></i>  
-            <span>Message</span>  
-            <i class="bi bi-caret-down-fill"></i>  
-          </button>  
-          <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="messageDropdown">  
-            <li><strong>Messages</strong></li>  
-            <li><hr class="dropdown-divider"></li>  
-            <li><a class="dropdown-item" href="#">Send a Message</a></li>  
-            <li><a class="dropdown-item" href="#">View Inbox</a></li>  
-          </ul>  
-        </div>  
-
-        <!-- Notification Dropdown -->  
-        <div class="dropdown">  
-          <button class="btn btn-secondary d-flex align-items-center gap-1" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">  
-            <i class="bi bi-bell-fill"></i>  
-            <span>Notification</span>  
-            <i class="bi bi-caret-down-fill"></i>  
-          </button>  
-          <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="notificationDropdown">  
-            <li><strong>Notifications</strong></li>  
-            <li><hr class="dropdown-divider"></li>  
-            <li><a class="dropdown-item" href="#">No new alerts</a></li>  
-          </ul>  
-        </div>  
-
-        <!-- Profile Dropdown -->  
-        <div class="dropdown">  
-          <button class="btn btn-secondary d-flex align-items-center gap-1" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">  
-            <img src="https://via.placeholder.com/30" class="rounded-circle" alt="Profile" width="30" height="30">  
-            <span>TANIM</span>  
-            <i class="bi bi-caret-down-fill"></i>  
-          </button>  
-          <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="profileDropdown">  
-            <li><a class="dropdown-item" href="#">Profile</a></li>  
-            <li><a class="dropdown-item" href="#">Settings</a></li>  
-            <li><hr class="dropdown-divider"></li>  
-            <li><a class="dropdown-item" href="#">Logout</a></li>  
-          </ul>  
-        </div>  
-      </div>  
-    </div>  
-
-    <!-- Content Area with iframe -->  
-    <div id="contentArea">  
-      <iframe id="contentFrame" src="o.html"></iframe>  
-    </div>  
-  </div>  
-
-  <!-- Script -->  
-  <script>  
-    function changeContent(contentType) {  
-      const iframe = document.getElementById('contentFrame');  
-      let file = '';  
-
-      switch (contentType) {  
-        case 'overview': file = 'o.html'; break;  
-        case 'productInfo': file = 'f1.php'; break;  
-        case 'productionData': file = 'f2.html'; break;  
-        case 'consumerDemand': file = 'f3.html'; break;  
-        case 'realTimeSupply': file = 'f4.html'; break;  
-        case 'marketPrices': file = 'f5.html'; break;  
-        case 'analytics': file = 'f7.html'; break;  
-        case 'recommendations': file = 'f6.html'; break;  
-        case 'directory': file = 'f8.html'; break;  
-        default:  
-          iframe.srcdoc = '<h3>Welcome to Meatopia Dashboard</h3><p>Select an option from the sidebar.</p>';  
-          return;  
-      }  
-
-      iframe.src = file;  
-    }  
-
-    window.addEventListener('DOMContentLoaded', () => {  
-      changeContent('overview');  
-    });  
-
-    document.querySelectorAll('.sidebar a').forEach(link => {  
-      link.addEventListener('click', function () {  
-        document.querySelectorAll('.sidebar a').forEach(l => l.classList.remove('active'));  
-        this.classList.add('active');  
-      });  
-    });  
-  </script>  
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>  
-</body>  
-</html>  
+        <!-- Tab Contents -->
+        <div class="tab-content" id="directoryTabsContent">
+            <!-- Farms Tab -->
+            <div class="tab-pane fade show active" id="farms" role="tabpanel" aria-labelledby="farms-tab">
+                <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+                    <input type="text" id="farmSearch" class="form-control search-bar" placeholder="Search farms...">
+                    <button class="btn btn-success ms-3" onclick="openModal('farm')">+ Add New Farm</button>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Farm ID</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Type</th>
+                                <th>Phone</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="farmsTableBody">
+                            <!-- Farm data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Vendors Tab -->
+            <div class="tab-pane fade" id="vendors" role="tabpanel" aria-labelledby="vendors-tab">
+                <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+                    <input type="text" id="vendorSearch" class="form-control search-bar" placeholder="Search vendors...">
+                    <button class="btn btn-success ms-3" onclick="openModal('vendor')">+ Add New Vendor</button>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Vendor ID</th>
+                                <th>Vendor Type</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Meat Type</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vendorsTableBody">
+                            <!-- Vendor data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Customers Tab -->
+            <div class="tab-pane fade" id="customers" role="tabpanel" aria-labelledby="customers-tab">
+                <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+                    <input type="text" id="customerSearch" class="form-control search-bar" placeholder="Search customers...">
+                    <button class="btn btn-success ms-3" onclick="openModal('customer')">+ Add New Customer</button>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Preferred Meat</th>
+                                <th>Email</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customersTableBody">
+                            <!-- Customer data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for Add/Edit -->
+    <div id="formModal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Add New Record</h5>
+                    <button type="button" class="btn-close" onclick="closeModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="dataForm">
+                        <input type="hidden" id="recordId">
+                        <input type="hidden" id="recordType">
+                        
+                        <div id="formFields">
+                            <!-- Form fields will be dynamically added here -->
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRecord()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // (Keep all your existing JavaScript code here)
+        // The JavaScript from your previous implementation will work with this HTML structure
+        // Just make sure to update any selectors if needed to match the new structure
+    </script>
+</body>
+</html>

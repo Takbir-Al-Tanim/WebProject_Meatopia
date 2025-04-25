@@ -9,9 +9,88 @@ include __DIR__ . '/db_connect.php';  // Database connection
   <title>Comprehensive Meat Product Info</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body { background-color: #f8f9fa; }
-    .table-container { margin-top: 30px; }
-    .search-input { max-width: 300px; }
+    /* Body and Table Styling */
+    body {
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    /* Table container */
+    .table-container {
+        margin-top: 30px;
+        flex-grow: 1; /* Allows the table container to expand */
+        overflow-y: auto; /* Ensures scrolling when content overflows */
+    }
+
+    /* Search bar styling */
+    .search-input {
+        max-width: 400px;
+        width: 100%;
+    }
+
+    /* Optional: To make the header sticky */
+    thead th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: #343a40;
+    }
+
+    /* Table styling for consistent column widths */
+    table th, table td {
+        white-space: nowrap;
+    }
+
+    table th:nth-child(1), table td:nth-child(1) {
+        width: 10%;
+    }
+
+    table th:nth-child(2), table td:nth-child(2) {
+        width: 15%;
+    }
+
+    table th:nth-child(3), table td:nth-child(3) {
+        width: 15%;
+    }
+
+    table th:nth-child(4), table td:nth-child(4) {
+        width: 10%;
+    }
+
+    table th:nth-child(5), table td:nth-child(5) {
+        width: 10%;
+    }
+
+    table th:nth-child(6), table td:nth-child(6) {
+        width: 10%;
+    }
+
+    table th:nth-child(7), table td:nth-child(7) {
+        width: 10%;
+    }
+
+    table th:nth-child(8), table td:nth-child(8) {
+        width: 10%;
+    }
+
+    table th:nth-child(9), table td:nth-child(9) {
+        width: 10%;
+    }
+
+    table th:nth-child(10), table td:nth-child(10) {
+        width: 10%;
+    }
+
+    /* Optional: Make the table scrollable on smaller screens */
+    .table-responsive {
+        max-height: calc(100vh - 200px); /* Allow the table to be scrollable */
+        overflow-y: auto;
+    }
+
   </style>
 </head>
 <body>
@@ -27,7 +106,7 @@ include __DIR__ . '/db_connect.php';  // Database connection
   <div class="container table-container">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2>Comprehensive Product Information</h2>
-      <a href="f1_form.php" class="btn btn-primary">➕ Add New Product</a>
+      <a href="f1_update.php" class="btn btn-primary">➕ Add New Product</a>
     </div>
     
     <div class="input-group mb-4" style="max-width: 400px;">
@@ -41,6 +120,7 @@ include __DIR__ . '/db_connect.php';  // Database connection
           <tr>
             <th>Product ID</th>
             <th>Meat Type</th>
+            <th>Cut Type</th>
             <th>Country</th>
             <th>Region</th>
             <th>Seasonality</th>
@@ -61,6 +141,7 @@ include __DIR__ . '/db_connect.php';  // Database connection
                   echo "<tr>
                       <td>".$row["Product_ID"]."</td>
                       <td>".$row["Meat_Type"]."</td>
+                      <td>".$row["Cut_Type"]."</td>
                       <td>".$row["Country"]."</td>
                       <td>".$row["Region"]."</td>
                       <td>".$row["Seasonality"]."</td>
@@ -84,7 +165,7 @@ include __DIR__ . '/db_connect.php';  // Database connection
   </div>
 
   <script>
-    // Filter table
+    // Filter table based on search input
     document.getElementById("searchInput").addEventListener("keyup", function() {
       const searchValue = this.value.toLowerCase();
       const rows = document.querySelectorAll("#productTable tbody tr");

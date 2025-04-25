@@ -10,7 +10,6 @@
   <style>
     body {
       background-color: #f8f9fa;
-      transition: margin-left 0.3s;
     }
     .sidebar {
       width: 250px;
@@ -19,31 +18,16 @@
       color: white;
       position: fixed;
       padding: 20px;
-      transition: width 0.3s;
-      overflow: hidden;
-      z-index: 1000;
-    }
-    .sidebar.collapsed {
-      width: 70px;
     }
     .sidebar h4 {
       text-align: center;
       margin-bottom: 30px;
-      white-space: nowrap;
-    }
-    .sidebar.collapsed h4 {
-      display: none;
     }
     .sidebar .admin {
       font-size: 1.2rem;
       margin-bottom: 20px;
       text-align: center;
       color: #adb5bd;
-      white-space: nowrap;
-    }
-    .sidebar.collapsed .admin {
-      font-size: 1.5rem;
-      margin-bottom: 30px;
     }
     .sidebar a {
       color: white;
@@ -53,20 +37,9 @@
       margin: 10px 0;
       transition: 0.3s;
       font-size: 1rem;
-      white-space: nowrap;
-    }
-    .sidebar.collapsed a {
-      text-align: center;
-      padding: 12px 5px;
-    }
-    .sidebar a span {
-      margin-left: 10px;
-    }
-    .sidebar.collapsed a span {
-      display: none;
     }
     .sidebar a:hover {
-      background: #0d6efd;
+      background:  #0d6efd;
       border-radius: 5px;
     }
     .sidebar a.active {
@@ -75,12 +48,8 @@
       border-radius: 5px;
     }
     .main-content {
-      margin-left: 270px;
+      margin-left: 260px;
       padding: 20px;
-      transition: margin-left 0.3s;
-    }
-    .sidebar.collapsed ~ .main-content {
-      margin-left: 90px;
     }
     .topbar {
       display: flex;
@@ -107,66 +76,23 @@
       height: 800px;
       border: none;
     }
-    .toggle-sidebar {
-      position: fixed;
-      left: 10px;
-      top: 10px;
-      z-index: 1100;
-      background: #222425;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: left 0.3s;
-    }
-    .sidebar.collapsed ~ .toggle-sidebar {
-      left: 80px;
-    }
-
-    /* Updated styles for black text and increased text size for Message, Notification, and Profile */
-    .btn-secondary {
-      color: black;
-      font-size: 1.1rem;
-    }
-    .btn-secondary:hover {
-      color: #0d6efd;
-    }
-    .dropdown-menu-end {
-      color: black;
-    }
-    .dropdown-item {
-      color: black;
-      font-size: 1.1rem;
-    }
-    .dropdown-item:hover {
-      background-color: #f8f9fa;
-    }
   </style>
 </head>
 <body>
 
-  <!-- Toggle Sidebar Button -->
-  <button class="toggle-sidebar" onclick="toggleSidebar()">
-    <i class="bi bi-list"></i>
-  </button>
-
   <!-- Sidebar -->
-  <div class="sidebar" id="sidebar">
+  <div class="sidebar">
     <h4>Meatopia.com</h4>
     <div class="admin">👤 Admin</div>
-    <a href="#" onclick="changeContent('overview')"><i class="bi bi-bar-chart-line"></i><span>Dashboard Overview</span></a>
-    <a href="#" onclick="changeContent('productInfo')"><i class="bi bi-box-seam"></i><span>Product Info</span></a>
-    <a href="#" onclick="changeContent('productionData')"><i class="bi bi-file-earmark-text"></i><span>Production Data</span></a>
-    <a href="#" onclick="changeContent('consumerDemand')"><i class="bi bi-people"></i><span>Consumer Demand</span></a>
-    <a href="#" onclick="changeContent('realTimeSupply')"><i class="bi bi-truck"></i><span>Supply & Logistics</span></a>
-    <a href="#" onclick="changeContent('marketPrices')"><i class="bi bi-graph-up"></i><span>Market Trends</span></a>
-    <a href="#" onclick="changeContent('recommendations')"><i class="bi bi-egg"></i><span>Farm & Livestock</span></a>
-    <a href="#" onclick="changeContent('directory')"><i class="bi bi-telephone"></i><span>Buyer & Seller</span></a>
+    <a href="#" onclick="changeContent('overview')">📊 Dashboard Overview</a>
+    <a href="#" onclick="changeContent('productInfo')">📦 Product Info</a>
+    <a href="#" onclick="changeContent('productionData')">📜 Production Data</a>
+    <a href="#" onclick="changeContent('consumerDemand')">👥 Consumer Demand</a>
+    <a href="#" onclick="changeContent('realTimeSupply')">🚚 Supply & Logistics</a>
+    <a href="#" onclick="changeContent('marketPrices')">📈 Market Trends</a>
+    <a href="#" onclick="changeContent('analytics')">🔍 Analysis Tools</a>
+    <a href="#" onclick="changeContent('recommendations')">🐄 Farm & Livestock</a>
+    <a href="#" onclick="changeContent('directory')">📞 Buyer & Seller</a>
   </div>
 
   <!-- Main Content -->
@@ -179,7 +105,7 @@
 
         <!-- Message Dropdown -->
         <div class="dropdown">
-          <button class="btn btn-secondary d-flex align-items-center gap-1" type="button" id="messageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn d-flex align-items-center gap-1 text-secondary" type="button" id="messageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-envelope-fill"></i>
             <span>Message</span>
             <i class="bi bi-caret-down-fill"></i>
@@ -194,7 +120,7 @@
 
         <!-- Notification Dropdown -->
         <div class="dropdown">
-          <button class="btn btn-secondary d-flex align-items-center gap-1" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn d-flex align-items-center gap-1 text-secondary" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-bell-fill"></i>
             <span>Notification</span>
             <i class="bi bi-caret-down-fill"></i>
@@ -208,7 +134,7 @@
 
         <!-- Profile Dropdown -->
         <div class="dropdown">
-          <button class="btn btn-secondary d-flex align-items-center gap-1" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn d-flex align-items-center gap-1 text-secondary" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="https://via.placeholder.com/30" class="rounded-circle" alt="Profile" width="30" height="30">
             <span>TANIM</span>
             <i class="bi bi-caret-down-fill"></i>
@@ -231,25 +157,20 @@
 
   <!-- Script -->
   <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.classList.toggle('collapsed');
-    }
-
     function changeContent(contentType) {
       const iframe = document.getElementById('contentFrame');
       let file = '';
 
       switch (contentType) {
         case 'overview': file = 'o.html'; break;
-        case 'productInfo': file = 'f1.php'; break;
-        case 'productionData': file = 'ProductionData/index.php'; break;
+        case 'productInfo': file = 'product_info.html'; break;
+        case 'productionData': file = 'index.html'; break;
         case 'consumerDemand': file = 'f3.html'; break;
         case 'realTimeSupply': file = 'f4.html'; break;
         case 'marketPrices': file = 'f5.html'; break;
         case 'analytics': file = 'f7.html'; break;
         case 'recommendations': file = 'f6.html'; break;
-        case 'directory': file = 'f8/f8.php'; break;
+        case 'directory': file = 'f8.html'; break;
         default:
           iframe.srcdoc = '<h3>Welcome to Meatopia Dashboard</h3><p>Select an option from the sidebar.</p>';
           return;
