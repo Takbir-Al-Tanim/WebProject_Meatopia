@@ -17,6 +17,15 @@
     #dataSection {
       padding: 50px 0;
     }
+    .tab-content {
+      padding: 20px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .tab-pane {
+      padding-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -51,8 +60,6 @@
           <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item view-link" data-type="livestock">View Livestock</a></li>
             <li><a class="dropdown-item view-link" data-type="batch">View Batches</a></li>
-
-
             <li><a class="dropdown-item view-link" data-type="slaughterhouse">View Slaughterhouse</a></li>
           </ul>
         </li>
@@ -70,10 +77,39 @@
 </div>
 
 <!-- Dynamic Data Section -->
-<div class="container" id="dataSection"></div>
+<div class="container" id="dataSection">
+  <!-- Tabs for viewing data -->
+  <ul class="nav nav-tabs" id="dataTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link active" id="livestock-tab" data-bs-toggle="tab" href="#livestock" role="tab" aria-controls="livestock" aria-selected="true">Livestock</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="batch-tab" data-bs-toggle="tab" href="#batch" role="tab" aria-controls="batch" aria-selected="false">Batch</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="slaughterhouse-tab" data-bs-toggle="tab" href="#slaughterhouse" role="tab" aria-controls="slaughterhouse" aria-selected="false">Slaughterhouse</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="dataTabContent">
+    <!-- Livestock Tab -->
+    <div class="tab-pane fade show active" id="livestock" role="tabpanel" aria-labelledby="livestock-tab">
+      <!-- Livestock data will be loaded here -->
+    </div>
+    <!-- Batch Tab -->
+    <div class="tab-pane fade" id="batch" role="tabpanel" aria-labelledby="batch-tab">
+      <!-- Batch data will be loaded here -->
+    </div>
+    <!-- Slaughterhouse Tab -->
+    <div class="tab-pane fade" id="slaughterhouse" role="tabpanel" aria-labelledby="slaughterhouse-tab">
+      <!-- Slaughterhouse data will be loaded here -->
+    </div>
+  </div>
+</div>
 
-<!-- Bootstrap + AJAX -->
+<!-- Bootstrap + AJAX + DataTables -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const links = document.querySelectorAll(".view-link");
@@ -87,7 +123,20 @@
         fetch(`view_${type}.php`)
           .then(response => response.text())
           .then(data => {
-            dataSection.innerHTML = data;
+            // Load data into corresponding tab
+            const tabContent = document.querySelector(`#${type}`).innerHTML = data;
+
+            // Initialize DataTable after content is loaded
+            $(document).ready(function() {
+              $(`#${type} table`).DataTable({
+                paging: true,
+                pageLength: 5,
+                lengthChange: false,
+                ordering: false,
+                info: false
+              });
+            });
+
             window.scrollTo({ top: dataSection.offsetTop, behavior: 'smooth' });
           })
           .catch(error => {

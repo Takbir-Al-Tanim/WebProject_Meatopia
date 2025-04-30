@@ -84,25 +84,12 @@
     }
     .topbar {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       align-items: center;
       margin-bottom: 30px;
-      width: 100%;
     }
-    .search-bar {
-      position: relative;
-      margin-right: 20px;
-    }
-    .search-bar .clear-search {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      display: none;
-    }
-    .search-bar input:not(:placeholder-shown) + .clear-search {
-      display: block;
+    .topbar .search-bar input {
+      width: 300px;
     }
     .btn {
       background: none;
@@ -170,20 +157,6 @@
   <div class="sidebar" id="sidebar">
     <h4>Meatopia.com</h4>
     <div class="admin">👤 Admin</div>
-    
-    <!-- Search Bar -->
-    <div class="search-bar mb-3">
-      <input type="text" 
-             class="form-control" 
-             placeholder="Search menu..." 
-             id="searchInput"
-             onkeyup="searchMenu()" />
-      <span class="clear-search text-muted" onclick="clearSearch()">
-        <i class="bi bi-x-circle"></i>
-      </span>
-    </div>
-
-    <!-- Menu Items -->
     <a href="#" onclick="changeContent('overview')"><i class="bi bi-bar-chart-line"></i><span>Dashboard Overview</span></a>
     <a href="#" onclick="changeContent('productInfo')"><i class="bi bi-box-seam"></i><span>Product Info</span></a>
     <a href="#" onclick="changeContent('productionData')"><i class="bi bi-file-earmark-text"></i><span>Production Data</span></a>
@@ -192,12 +165,17 @@
     <a href="#" onclick="changeContent('marketPrices')"><i class="bi bi-graph-up"></i><span>Market Trends</span></a>
     <a href="#" onclick="changeContent('recommendations')"><i class="bi bi-egg"></i><span>Farm & Livestock</span></a>
     <a href="#" onclick="changeContent('directory')"><i class="bi bi-telephone"></i><span>Buyer & Seller</span></a>
+    <a href="#" onclick="changeContent('historicalGraph')"><i class="bi bi-graph-up-arrow"></i><span>Historical Graph</span></a>
+    <a href="#" onclick="changeContent('currentGraph')"><i class="bi bi-bar-chart"></i><span>Current Graph</span></a>
   </div>
 
   <!-- Main Content -->
   <div class="main-content">
     <div class="topbar">
-      <div class="d-flex justify-content-end align-items-center gap-3 w-100">
+      <div class="search-bar">
+        <input type="text" class="form-control" placeholder="Search..." />
+      </div>
+      <div class="d-flex align-items-center gap-3">
         <!-- Message Dropdown -->
         <div class="dropdown">
           <button class="btn btn-secondary d-flex align-items-center gap-1" type="button" id="messageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -208,9 +186,8 @@
           <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="messageDropdown">
             <li><strong>Messages</strong></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">New message from Admin</a></li>
-            <li><a class="dropdown-item" href="#">Reminder: Check dashboard updates</a></li>
-            <li><a class="dropdown-item" href="#">Meeting scheduled for tomorrow</a></li>
+            <li><a class="dropdown-item" href="#">Send a Message</a></li>
+            <li><a class="dropdown-item" href="#">View Inbox</a></li>
           </ul>
         </div>
 
@@ -224,9 +201,7 @@
           <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="notificationDropdown">
             <li><strong>Notifications</strong></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">New system update available</a></li>
-            <li><a class="dropdown-item" href="#">Security alert: Password change required</a></li>
-            <li><a class="dropdown-item" href="#">Maintenance scheduled for tonight</a></li>
+            <li><a class="dropdown-item" href="#">No new alerts</a></li>
           </ul>
         </div>
 
@@ -247,69 +222,87 @@
       </div>
     </div>
 
-    <!-- Content Area with iframe -->
+    <!-- Content Area -->
     <div id="contentArea">
-      <iframe id="contentFrame" src="o.html"></iframe>
+      <!-- Always Show Historical and Current Graphs -->
+      <div id="graphsContainer">
+        <div id="historicalGraphContainer" style="display:none;">
+          <!-- Historical Graph will load here -->
+        </div>
+        <div id="currentGraphContainer" style="display:none;">
+          <!-- Current Graph will load here -->
+        </div>
+      </div>
     </div>
   </div>
 
+  <!-- Script -->
   <script>
-    // Sidebar Toggle
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
       sidebar.classList.toggle('collapsed');
     }
 
-    // Content Loading
     function changeContent(contentType) {
-      const iframe = document.getElementById('contentFrame');
-      let file = '';
+      const historicalGraphContainer = document.getElementById('historicalGraphContainer');
+      const currentGraphContainer = document.getElementById('currentGraphContainer');
 
+      historicalGraphContainer.style.display = 'none';
+      currentGraphContainer.style.display = 'none';
+
+      let file = '';
       switch (contentType) {
-        case 'overview': file = 'f5/o.php'; break;
-        case 'productInfo': file = 'f1.php'; break;
-        case 'productionData': file = 'ProductionData/index.php'; break;
-        case 'consumerDemand': file = 'f3/f3_view.php'; break;
-        case 'realTimeSupply': file = 'f4_read.php'; break;
-        case 'marketPrices': file = 'f5/read.php'; break;
-        case 'analytics': file = 'f7.html'; break;
-        case 'recommendations': file = 'f6/f6_read.php'; break;
-        case 'directory': file = 'f8/f8.php'; break;
+        case 'overview':
+          file = 'o.html'; break;
+        case 'productInfo':
+          file = 'f1.php'; break;
+        case 'productionData':
+          file = 'ProductionData/index.php'; break;
+        case 'consumerDemand':
+          file = 'f3.html'; break;
+        case 'realTimeSupply':
+          file = 'f4.html'; break;
+        case 'marketPrices':
+          file = 'f5/read.php'; break;
+        case 'recommendations':
+          file = 'f6.html'; break;
+        case 'directory':
+          file = 'f8/f8.php'; break;
+        case 'historicalGraph':
+          historicalGraphContainer.style.display = 'block';
+          file = 'historical_graph.php';
+          break;
+        case 'currentGraph':
+          currentGraphContainer.style.display = 'block';
+          file = 'current_graph.php';
+          break;
         default:
-          iframe.srcdoc = '<h3>Welcome to Meatopia Dashboard</h3><p>Select an option from the sidebar.</p>';
-          return;
+          file = '';
       }
 
-      iframe.src = file;
+      if (file) {
+        loadGraph(contentType);
+      }
     }
 
-    // Menu Search Functionality
-    function searchMenu() {
-      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-      const menuItems = document.querySelectorAll('.sidebar a:not(.admin)');
-      
-      menuItems.forEach(item => {
-        const text = item.innerText.toLowerCase();
-        item.style.display = text.includes(searchTerm) ? 'block' : 'none';
-      });
+    function loadGraph(type) {
+      const historicalGraphContainer = document.getElementById('historicalGraphContainer');
+      const currentGraphContainer = document.getElementById('currentGraphContainer');
+      if (type === 'historicalGraph') {
+        fetch('historical_graph.php')
+          .then(response => response.text())
+          .then(html => {
+            historicalGraphContainer.innerHTML = html;
+          });
+      }
+      if (type === 'currentGraph') {
+        fetch('current_graph.php')
+          .then(response => response.text())
+          .then(html => {
+            currentGraphContainer.innerHTML = html;
+          });
+      }
     }
-
-    // Clear Search
-    function clearSearch() {
-      document.getElementById('searchInput').value = '';
-      searchMenu();
-    }
-
-    // Initialization
-    window.addEventListener('DOMContentLoaded', () => {
-      changeContent('overview');
-      document.querySelectorAll('.sidebar a').forEach(link => {
-        link.addEventListener('click', function () {
-          document.querySelectorAll('.sidebar a').forEach(l => l.classList.remove('active'));
-          this.classList.add('active');
-        });
-      });
-    });
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

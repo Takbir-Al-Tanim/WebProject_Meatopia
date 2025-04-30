@@ -63,6 +63,20 @@
           <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control" id="password" name="password" required>
         </div>
+
+        <!-- Dropdown for User Role Selection -->
+        <div class="mb-3">
+          <label for="userRole" class="form-label">Select Role</label>
+          <select class="form-select" id="userRole" name="userRole" required>
+            <option value="">Choose User Role</option>
+            <option value="wholesaler">Wholesaler</option>
+            <option value="butcher">Butcher</option>
+            <option value="cold_storage">Cold Storage Provider</option>
+            <option value="customer">Customer</option>
+            <option value="admin">Admin</option> <!-- Added admin role -->
+          </select>
+        </div>
+
         <button type="submit" class="btn btn-login w-100 mt-3">Login</button>
         <div class="form-text">
           Don't have an account? <a href="#">Register</a>
@@ -74,18 +88,29 @@
     // Add event listener to the form
     document.getElementById("loginForm").addEventListener("submit", function(event) {
       event.preventDefault(); // Prevent the default form submission
-      
-      // Get the values of user ID and password
+
+      // Get the values of user ID, password, and user role
       const userId = document.getElementById("userid").value;
       const password = document.getElementById("password").value;
+      const userRole = document.getElementById("userRole").value;
 
-      // Check if the entered credentials are correct
-      if (userId === "2331694" && password === "1234") {
-        // Redirect to d.html if credentials are correct
-        window.location.href = "dashboard.php";
+      // Check if the entered credentials are correct and a role is selected
+      if (userId === "2331694" && password === "1234" && userRole !== "") {
+        // Redirect based on the selected user role
+        if (userRole === "wholesaler") {
+          window.location.href = "f3.html"; // Redirect to wholesalers page
+        } else if (userRole === "butcher") {
+          window.location.href = "ProductionData/view_slaughterhouse.php"; // Redirect to butchers page
+        } else if (userRole === "cold_storage") {
+          window.location.href = "f4/f4_read.php"; // Redirect to cold storage page
+        } else if (userRole === "customer") {
+          window.location.href = "f5/read.php"; // Redirect to customer page
+        } else if (userRole === "admin") {
+          window.location.href = "dashboard.php"; // Redirect to admin dashboard
+        }
       } else {
-        // Show an alert if credentials are incorrect
-        alert("Invalid User ID or Password. Please try again.");
+        // Show an alert if credentials or role are incorrect
+        alert("Invalid User ID, Password, or Role. Please try again.");
       }
     });
   </script>
